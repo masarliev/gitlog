@@ -1,0 +1,7 @@
+*.pyc
+.project
+.pydevproject
+/settings.py
+/manage.py
+/__init__.py
+/urls.py
