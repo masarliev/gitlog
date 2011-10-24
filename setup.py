@@ -18,6 +18,6 @@ setup(
     packages=['gitlog', 'gitlog.templatetags'],
     package_data={ 'gitlog' : ['templates/gitlog/*.html', 'templates/gitlog/repositories/*.html', 'templates/gitlog/account/*.html']},
     zip_safe=False,
-    install_requires=['GitPython >=0.3.2', 'Pygments >=1.4', 'Django >=1.3', 'ConfigObj >=4.7.2', 'Makrdown >=2.0.3'],
+    install_requires=['GitPython >=0.3.2', 'Pygments >=1.4', 'Django >=1.3', 'ConfigObj >=4.7.2', 'Makrdown >=2.0.3', 'south>=0.7.2'],
 )
 
