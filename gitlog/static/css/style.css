@@ -238,6 +238,11 @@ div.block-head {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     padding: 7px 10px;
+    background:#E8E8E8;
+    background:-moz-linear-gradient(top,#F9F9F9 0,#E8E8E8 100%);
+    background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#F9F9F9),color-stop(100%,#E8E8E8));
+    background:linear-gradient(top,#F9F9F9 0,#E8E8E8 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F9F9F9',endColorstr='#E8E8E8',GradientType=0);
 }
 div.block-head h3 {
     font-weight: bold;
