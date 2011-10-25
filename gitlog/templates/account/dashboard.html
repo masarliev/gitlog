@@ -1,0 +1,35 @@
+{% extends 'base.html'%}
+{% load i18n %}
+{% block title %}{% trans 'Git Admin'%}{% endblock%}
+{% block content %}
+<div class="main">
+	<div class="content">
+		{% block main %}
+		<div class="block">
+			<div class="block-head">
+				<h3>{% trans 'News Feeds'%}</h3>
+				<a href="#" title="RSS"><img src="{{STATIC_URL}}img/rss.png" style="margin-top: 3px;"/></a>
+			</div>
+			<div class="block-content">&nbsp;</div>
+		</div>
+		{% endblock %}
+	</div>
+	<div class="sidebar">
+		<div class="block">
+			<div class="block-head">
+				<h3>{% trans 'Your Projects'%} <em>({{projects.count}})</em></h3>
+				<a href="{% url gitlog_projects_create %}" class="button">{% trans 'New Project'%}</a>
+			</div>
+			<div class="block-content">
+				<ul class="repolist">
+					{% for repo in projects %}
+					<li class="{{repo.cssclass}}"><a href="{%url gitlog_project_tree owner=repo.owner project=repo.name%}">
+						<span>{{repo.owner}}</span>/<span><b>{{repo.name}}</b></span>
+					</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock%}

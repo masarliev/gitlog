@@ -1,0 +1,21 @@
+{% extends 'account/dashboard.html'%}
+{% load i18n %}
+{% block main %}
+<div class="block">
+	<div class="block-head">
+		<h3>{% trans 'Create New Project'%}</h3>
+	</div>
+	<div class="block-content">
+		<form action="" method="post">
+			{% csrf_token %}
+			<ul class="form">
+				{{form.as_ul}}
+				<li>
+					<input type="submit" value="{% trans "Save"%}" />
+				</li>
+			</ul>
+		</form>
+		
+	</div>
+</div>
+{% endblock%}

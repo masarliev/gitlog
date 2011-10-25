@@ -1,0 +1,51 @@
+{% extends 'base.html'%}
+{% load i18n %}
+{% block title%}{% trans 'Login'%}{% endblock%}
+{% block header %} {% endblock %}
+{% block page_head %}
+<div class="page-title">
+	<h1><center>{% trans 'Login'%} {%trans 'to'%} {{page_title}}</center></h1>
+</div>
+{% endblock %}
+{% block content %}
+{% if form.non_field_errors or form.this_is_the_login_form.errors %}
+{% for error in form.non_field_errors|add:form.this_is_the_login_form.errors %}
+<div class="error_box"> {{ error }}</div>
+{% endfor %}
+{% endif %}
+{% if form.errors and not form.non_field_errors and not form.this_is_the_login_form.errors %}
+<div class="error_box">
+{% blocktrans count form.errors.items|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+</div>
+{% endif %}
+<div id="login" class="login_form">
+	<form action="{{ app_path }}" method="post">
+		{% csrf_token %}
+		<input type="hidden" name="this_is_the_login_form" value="1" />
+    	<input type="hidden" name="next" value="{{ next }}" />
+		<ul class="formbody">
+			
+			<li>
+				{% if not form.this_is_the_login_form.errors %}{{ form.username.errors }}{% endif %}
+				<label>{% trans 'Username' %}</label>
+				{{form.username}}
+			</li>
+			<li>
+				{% if not form.this_is_the_login_form.errors %}{{ form.password.errors }}{% endif %}
+				<label>{% trans 'Password' %}</label>
+				{% comment %}
+				<a href="forgot_password">({% trans 'forgot password'%})</a>
+				{% endcomment %}
+				{{form.password}}
+			</li>
+			<li class='submit'>
+				<label>&nbsp; </label>
+				<input tabindex="3" type="submit" value="{% trans 'Log in' %}" />
+			</li>
+		</ul>
+	</form>
+</div>
+<script type="text/javascript">
+document.getElementById('id_username').focus()
+</script>
+{% endblock %}

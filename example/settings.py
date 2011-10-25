@@ -96,6 +96,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.request',
     'django.core.context_processors.static',
+    'gitlog.context_processors.gitlog',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -114,6 +115,9 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/account/login/'
+LOGOUT_URL = '/account/logout/'
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
