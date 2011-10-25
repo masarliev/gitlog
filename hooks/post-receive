@@ -1,0 +1,9 @@
+#!/bin/sh
+# Remove comments from last 2 lines
+# Replce {path} with django project path
+# example 
+#  python /var/www/gitlog/manage.py postreceive $oldrev $newrev $refname gitosis-admin
+# move or copy this file to /home/git/repositories/gitosis-admin.git/hooks/post-receive
+
+#read oldrev newrev refname
+#python {path}manage.py postreceive $oldrev $newrev $refname gitosis-admin
