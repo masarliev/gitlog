@@ -16,6 +16,7 @@ urlpatterns += patterns('',
 )
 urlpatterns += patterns('gitlog.account',
     url(r'^account/settings/$', 'settings', name="gitlog_account_settings"),
+    url(r'^account/(?P<user>[\w.@+-]+)/$', 'dashboard', name="gitlog_account_dashboard"),
     url(r'^account/$', 'dashboard', name="gitlog_account_dashboard"),
 )
 

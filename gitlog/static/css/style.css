@@ -270,7 +270,7 @@ div.block-content{
     border-width: 0 1px 1px;
     padding: 6px 10px 8px;
 }
-div.sidebar .block-content ul li {
+div.sidebar .block-content ul.repolist li {
 	border-bottom: 1px solid #E5E5E5;
 	display: block;
 	padding-left: 20px;
@@ -281,8 +281,35 @@ div.block-content ul li.writable{
 div.block-content ul li.readonly{
 	background: url("../img/readonly.png") no-repeat scroll 0 7px transparent;
 }
-div.block-content ul li a {
+div.block-content ul.repolist li a {
 	display: block;
 	padding: 5px 0;
 	font-size: 14px;
 }
+li.commit-message {
+	padding-left: 10px;
+	color: #777;
+}
+span.strong {
+	font-weight: bold;
+	color: #069;
+}
+ul.select-filters {
+	margin: 0 -10px;
+	background: #F8F8F8;
+	border: 1px solid #DEDEDE;
+	border-width: 1px 0;
+	clear: both;
+	height: 20px;
+}
+ul.select-filters li {
+	float: left;
+	margin-top: 2px;
+	margin-left: 5px;
+	padding-left: 3px;
+}
+ul.select-filters li a {
+	display: block;
+}
+ul.select-filters li a.active {
+	opacity: 0.5;

@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'south',
     'gitlog',
     # Uncomment the next line to enable the admin:

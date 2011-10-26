@@ -9,6 +9,10 @@ from gitlog.models import Project
 from gitlog.forms import ProjectForm
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404
+from gitlog import settings
+import git
+from git.db import GitCmdObjectDB
 @auto_render
 @login_required
 def create(request):
@@ -28,4 +32,8 @@ def create(request):
 @auto_render
 @login_required
 def tree(request, project):
-    return 'projects/tree.html', {}
+    project = get_object_or_404(Project, name=project)
+    repo = git.Repo('%s%s.git' %(getattr(settings, 'REPOSITORY_DIR'), project.name), odbt=GitCmdObjectDB)
+    assert repo.bare == True
+    commit = repo.heads.master.commit
+    return 'projects/tree.html', {'project':project, 'repo':repo, 'commit':commit}
