@@ -21,5 +21,5 @@ urlpatterns += patterns('gitlog.account',
 
 urlpatterns += patterns('gitlog.projects',
     url(r'^projects/create/$', 'create', name="gitlog_projects_create"),
-    url(r'^(?P<owner>[\w.@+-]+)/(?P<project>[\w.@+-]+)/$', 'tree', name="gitlog_project_tree"),
+    url(r'^(?P<project>[\w.@+-]+)/$', 'tree', name="gitlog_project_tree"),
 )

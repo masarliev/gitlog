@@ -18,13 +18,19 @@
 		<div class="block">
 			<div class="block-head">
 				<h3>{% trans 'Your Projects'%} <em>({{projects.count}})</em></h3>
-				<a href="{% url gitlog_projects_create %}" class="button">{% trans 'New Project'%}</a>
+				{% comment %}<a href="{% url gitlog_projects_create %}" class="button">{% trans 'New Project'%}</a>{% endcomment %}
 			</div>
 			<div class="block-content">
 				<ul class="repolist">
 					{% for repo in projects %}
-					<li class="{{repo.cssclass}}"><a href="{%url gitlog_project_tree owner=repo.owner project=repo.name%}">
-						<span>{{repo.owner}}</span>/<span><b>{{repo.name}}</b></span>
+					{% if user in repo.writable.all %}
+					<li class="writable">
+					{% endif%}
+					{% if user in repo.readonly.all %}
+					<li class="readonly">
+					{% endif%}
+						<a href="{%url gitlog_project_tree project=repo.name%}">
+						<span><b>{{repo.name}}</b></span>
 					</a></li>
 					{% endfor %}
 				</ul>

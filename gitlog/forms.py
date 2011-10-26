@@ -12,5 +12,5 @@ class ProjectForm(forms.ModelForm):
         error_messages = {'invalid': _("This value may contain only letters, numbers and @/./+/-/_ characters.")})
     class Meta:
         model = Project
-        exclude = ('owner','source',)
-        fields = ("name",'private')
+        exclude = ('owner',)
+        fields = ("name",)

@@ -8,11 +8,12 @@ from gitlog.models import Project
 from gitlog import settings
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.db.models import Q
+from gitlog.account import dashboard
 @auto_render
 def home(request):
     if(request.user.is_authenticated()):
-        projects = Project.objects.filter(owner=request.user)
-        return 'account/dashboard.html', {'projects':projects}
+        return dashboard(request)
     else:
         if not getattr(settings, 'PUBLIC_ACCESS'):
             return HttpResponseRedirect(reverse('gitlog_login'))

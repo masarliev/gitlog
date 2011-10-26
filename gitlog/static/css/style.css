@@ -275,11 +275,11 @@ div.sidebar .block-content ul li {
 	display: block;
 	padding-left: 20px;
 }
-div.block-content ul li.private{
-	background: url("../img/private.png") no-repeat scroll 0 7px transparent;
+div.block-content ul li.writable{
+	background: url("../img/writable.png") no-repeat scroll 0 7px transparent;
 }
-div.block-content ul li.public{
-	background: url("../img/public.png") no-repeat scroll 0 7px transparent;
+div.block-content ul li.readonly{
+	background: url("../img/readonly.png") no-repeat scroll 0 7px transparent;
 }
 div.block-content ul li a {
 	display: block;

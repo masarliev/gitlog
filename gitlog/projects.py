@@ -27,5 +27,5 @@ def create(request):
 
 @auto_render
 @login_required
-def tree(request, owner, project):
+def tree(request, project):
     return 'projects/tree.html', {}
