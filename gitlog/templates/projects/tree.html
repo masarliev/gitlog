@@ -1,6 +1,6 @@
 {% extends 'base.html'%}
 {% block title %}{{project.name}}{% endblock %}
-{% load i18n humanize gitlog %}
+{% load i18n humanize gitlog gravatar %}
 {% block content %}
 <div class="main">
 	<div class="content">
@@ -19,24 +19,49 @@
 				</ul>
 			</div>
 		</div>
+		<div class="repo-breadcrumb">
+			<a href="#"><span class="strong">{{project.name}}</span></a> /
+			<a href="#">Dir</a> /
+			file
+		</div>
+		<table cellpadding="0" cellspacing="0" class="tree-browser">
+			<tr class="tree-browser-header">
+				<td width="20"></td>
+				<td>{% trans 'Name'%}</td>
+				<td>{% trans 'Age'%}</td>
+				<td>{% trans 'Message'%}</td>
+				<td width="55"><a href="#" class="button" style="position: absolute; margin-top: -4px;">{% trans 'History'%}</a></td>
+			</tr>
+			{% for item in commit.tree.trees %}
+			{% render_commit_row commit item %}
+			{% endfor %}
+			{% for item in commit.tree.blobs %}
+			{% render_commit_row commit item %}
+			{% endfor %}
+		</table>
 		{% endblock %}
 	</div>
 	<div class="sidebar">
 		<div class="block">
 			<div class="block-head">
-				<h3>{{project.name}} <em>({{project.owner}})</em></h3>
+				<h3>{{project.name}}
+					<a class="button active" id="a-git-ssh" href="javascript:;" onclick="$(this).toggleClass('active'); $('a#a-git-git').toggleClass('active'); $('input#git-ssh').toggle();$('input#git-git').toggle();">SSH</a>
+					<a class="button" style="right: 53px;" id="a-git-git" href="javascript:;" onclick="$(this).toggleClass('active'); $('a#a-git-ssh').toggleClass('active'); $('input#git-ssh').toggle();$('input#git-git').toggle();">Git Read-Only</a>
+				</h3>
 			</div>
 			<div class="block-content">
-				<div>
-				<ul class="select-filters">
-					<li>Git Url: </li>
-					<li><a id="a-git-ssh" href="javascript:;" onclick="$(this).toggleClass('active'); $('a#a-git-git').toggleClass('active'); $('li#git-ssh').toggle();$('li#git-git').toggle();" class="active">SSH</a></li>
-					<li><a id="a-git-git" href="javascript:;" onclick="$(this).toggleClass('active'); $('a#a-git-ssh').toggleClass('active'); $('li#git-ssh').toggle();$('li#git-git').toggle();">Git Read-Only</a></li>
-				</ul>
-				<ul class="select-filters" style="border-top: 0px; padding-left: 15px;">
-					<li id="git-ssh">git@masarliev.net:gitlog.git</li>
-					<li id="git-git" style="display: none;">git://git.masarliev.net/gitlog.git</li>
-				</ul>
+				<input type="text" class="repourl" id="git-ssh" value="{{project.sshurl}}"/>
+				<input type="text" class="repourl" id="git-git" value="{{project.giturl}}" style="display: none;"/>
+				<div class="author">
+					{% gravatar project.owner 45 %}	
+					<ul style="min-height: 50px;">
+						<li><a href="{{project.url}}" target="__blank">{{project.url}}</a></li>
+						<li><a href="#"><span class="strong">{{project.owner}}</span></a></li>
+						<li>{{project.owner.email}}</li>
+					</ul>
+					{% if user = project.owner %}
+					<a href="#" class="grey" style="left: 255px;"><span>{% trans "Admin"%}</span></a>
+					{% endif%}
 				</div>
 			</div>
 		</div>

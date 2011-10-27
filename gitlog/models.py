@@ -6,6 +6,7 @@ Created on Oct 25, 2011
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from gitlog import settings
 class Project(models.Model):
     owner = models.ForeignKey(User, related_name='owner', blank=True, null=True)
     writable = models.ManyToManyField(User, related_name='writable')
@@ -16,3 +17,11 @@ class Project(models.Model):
     description = models.TextField(blank=True, null=True)
     def __unicode(self):
         return self.name
+    
+    @property
+    def giturl(self):
+        return 'git://%s/%s.git' % (getattr(settings, 'DOMAIN'), self.name)
+    
+    @property
+    def sshurl(self):
+        return '%s@%s:%s.git' % (getattr(settings, 'GITOSIS_USER'), getattr(settings, 'DOMAIN'), self.name)
