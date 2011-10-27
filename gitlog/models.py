@@ -15,7 +15,7 @@ class Project(models.Model):
     public = models.BooleanField(_('private'))
     url = models.URLField(_("url"), max_length=30, blank=True, null=True, verify_exists=True)
     description = models.TextField(blank=True, null=True)
-    def __unicode(self):
+    def __unicode__(self):
         return self.name
     
     @property

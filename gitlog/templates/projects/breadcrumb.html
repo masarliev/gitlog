@@ -1,0 +1,10 @@
+<div class="repo-breadcrumb">
+	<a href="{% url gitlog_project_tree project=project.name commit=commit%}">{{ project }}</a> /
+	{% for item in breadcrumb %}
+	{% if not forloop.last %}
+		<a href="{% url gitlog_project_tree project=project.name path=item.path commit=commit%}">{{ item.name }}</a> /
+	{% else %}
+	{{ item.name }}
+	{% endif %}
+	{% endfor %}
+</div>

@@ -1,0 +1,25 @@
+{% load i18n gitlog %}
+<div class="block">
+	<div class="block-head">
+		{% if current %}
+		<h3>{% trans 'Latest commit to the'%} <span class="strong">{{name}}</span> {% trans 'branch'%}</h3>
+		{% endif %}
+		{% if not current %}
+		<h3>{% trans 'Browsing ref'%} <span class="strong">{{name|substr:'10'}}</span></h3>
+		{% endif %}
+
+		<a class="button switcher">Branch: {{ref}}</a>
+	</div>
+	<div class="block-content">
+		<ul>
+			<li>
+				<span class="strong">
+					<a href ="{% url gitlog_account_dashboard user=commit.author.email|user:'username' %}">{{commit.author.email|user:'username'}}</a>
+				</span> 
+				{% trans 'authored on'%} {{commit.authored_date|timetodate}}
+				<div style="float:right; opacity: 0.5;">{% trans "Commit"%}: <a href="#">{{commit|substr:10}}</a></div>
+			</li>
+			<li class="commit-message">{{commit.message}}</li>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,14 @@
+{% extends 'projects/tree.html'%}
+{% block title %}{{project.name}}{% endblock %}
+{% load i18n humanize gitlog gravatar %}
+{% block main %}
+{% breadcrumb %}
+<div class="block">
+			<div class="block-head">
+				<h3>{{blob.name}}</h3>
+			</div>
+			<div class="block-content">
+				
+			</div>
+		</div>
+{% endblock %}

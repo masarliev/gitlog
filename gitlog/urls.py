@@ -22,5 +22,9 @@ urlpatterns += patterns('gitlog.account',
 
 urlpatterns += patterns('gitlog.projects',
     url(r'^projects/create/$', 'create', name="gitlog_projects_create"),
+    url(r'^(?P<project>[\w.@+-]+)/tree/$', redirect_to, {'url': '../'}),
     url(r'^(?P<project>[\w.@+-]+)/$', 'tree', name="gitlog_project_tree"),
+    url(r'^(?P<project>[\w.@+-]+)/tree/(?P<commit>\w+)/$', 'tree', name="gitlog_project_tree"),
+    url(r'^(?P<project>[\w.@+-]+)/tree/(?P<commit>\w+)/(?P<path>.*)$', 'tree', name="gitlog_project_tree"),
+    url(r'^(?P<project>[\w.@+-]+)/blob/(?P<commit>\w+)/(?P<path>.*)$', 'blob', name="gitlog_project_blob"),
 )

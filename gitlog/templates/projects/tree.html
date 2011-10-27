@@ -1,29 +1,12 @@
 {% extends 'base.html'%}
 {% block title %}{{project.name}}{% endblock %}
-{% load i18n humanize gitlog gravatar %}
+{% load i18n gitlog gravatar %}
 {% block content %}
 <div class="main">
 	<div class="content">
+		{% commithead %}
 		{% block main %}
-		<div class="block">
-			<div class="block-head">
-				<h3>{% trans 'Latest commit to the master branch'%}</h3>
-			</div>
-			<div class="block-content">
-				<ul>
-					<li>
-						<span class="strong"><a href ="{% url gitlog_account_dashboard user=commit.author.email|user:'username' %}">{{commit.author.email|user:'username'}}</a></span> {% trans 'authored on'%} {{commit.authored_date|timetodate}}
-						<div style="float:right; opacity: 0.5;">{% trans "Commit"%}: <a href="#">{{commit|substr:10}}</a></div>
-					</li>
-					<li class="commit-message">{{commit.message}}</li>
-				</ul>
-			</div>
-		</div>
-		<div class="repo-breadcrumb">
-			<a href="#"><span class="strong">{{project.name}}</span></a> /
-			<a href="#">Dir</a> /
-			file
-		</div>
+		{% breadcrumb %}
 		<table cellpadding="0" cellspacing="0" class="tree-browser">
 			<tr class="tree-browser-header">
 				<td width="20"></td>
@@ -32,10 +15,10 @@
 				<td>{% trans 'Message'%}</td>
 				<td width="55"><a href="#" class="button" style="position: absolute; margin-top: -4px;">{% trans 'History'%}</a></td>
 			</tr>
-			{% for item in commit.tree.trees %}
+			{% for item in tree.trees %}
 			{% render_commit_row commit item %}
 			{% endfor %}
-			{% for item in commit.tree.blobs %}
+			{% for item in tree.blobs %}
 			{% render_commit_row commit item %}
 			{% endfor %}
 		</table>
@@ -62,6 +45,12 @@
 					{% if user = project.owner %}
 					<a href="#" class="grey" style="left: 255px;"><span>{% trans "Admin"%}</span></a>
 					{% endif%}
+				</div>
+				<div class="refs">
+					<ul>
+						<li>{% trans 'Branches'%}</li>
+						<li>{% trans 'Tags'%}</li>
+					</ul>
 				</div>
 			</div>
 		</div>
