@@ -114,7 +114,9 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
-
+RESTRUCTUREDTEXT_FILTER_SETTINGS = {
+    'embed_stylesheet': True,
+}
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/account/login/'
 LOGOUT_URL = '/account/logout/'
@@ -123,7 +125,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
-    'django.contrib.humanize',
+    'django.contrib.markup',
     'south',
     'gitlog',
     # Uncomment the next line to enable the admin:

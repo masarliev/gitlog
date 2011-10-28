@@ -1,14 +1,15 @@
 {% load i18n gitlog %}
 <div class="block">
 	<div class="block-head">
+		<h3>
 		{% if current %}
-		<h3>{% trans 'Latest commit to the'%} <span class="strong">{{name}}</span> {% trans 'branch'%}</h3>
+		{% trans 'Latest commit to the'%} <span class="strong">{{name}}</span> {% trans 'branch'%}
 		{% endif %}
 		{% if not current %}
-		<h3>{% trans 'Browsing ref'%} <span class="strong">{{name|substr:'10'}}</span></h3>
+		{% trans 'Browsing ref'%} <span class="strong">{{name|substr:'10'}}</span>
 		{% endif %}
-
-		<a class="button switcher">Branch: {{ref}}</a>
+		<a class="button switcher" href="#">Branch: {{ref}}</a>
+		</h3>
 	</div>
 	<div class="block-content">
 		<ul>

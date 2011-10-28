@@ -1,3 +1,4 @@
+/*
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td
 {
 	border: 0px none;
@@ -10,12 +11,16 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     padding: 0px;
     vertical-align: baseline;
 }
+*/
 body{
 	color: #000000;
     font: 62.5%/1.2 Arial,Helvetica,"Nimbus Sans L",sans-serif;
 }
 ol, ul {
     list-style: none outside none;
+    margin: 0px;
+    outline: 0px none;
+    padding: 0px;
 }
 a {
     color: #006699;
@@ -291,6 +296,9 @@ div.block-head {
 }
 div.block-head h3 {
     font-weight: bold;
+    margin: 0px;
+    outline: 0px none;
+    padding: 0px;
 }
 div.block-head h3 em {
 	color: #99A4AA;	
@@ -374,7 +382,7 @@ div.repo-breadcrumb{
 	padding: 5px;
 }
 table.tree-browser {
-	width: 640px;
+	width: 980px;
 	border-color: #DDDDDD;
     border-style: solid;
     border-width: 1px 1px 0;
@@ -399,4 +407,13 @@ table.tree-browser td {
 }
 table.tree-browser tr:last-child td{
 	border: none;
+}
+td.linenos {
+    min-width: 15px;
+    border-right: solid 1px #dddddd;
+}
+div.source {
+	overflow-x: auto;
+	width: 939px;
+	overflow-y: hidden;
 }

@@ -1,14 +1,14 @@
 {% extends 'projects/tree.html'%}
 {% block title %}{{project.name}}{% endblock %}
-{% load i18n humanize gitlog gravatar %}
+{% load i18n gitlog gravatar %}
 {% block main %}
 {% breadcrumb %}
 <div class="block">
 			<div class="block-head">
-				<h3>{{blob.name}}</h3>
+				<h3>{{blob.name}} <em>({{blob.size|convert_bytes}})</em><a href="#" class="button" >{% trans 'History'%}</a></h3>
 			</div>
-			<div class="block-content">
-				
+			<div class="block-content" style="padding: 0px 10px;">
+				{{blob|highlight|safe}}
 			</div>
 		</div>
 {% endblock %}

@@ -1,0 +1,21 @@
+{% load markup gitlog %}
+{% if blob %}
+<div class="block">
+	<div class="block-head">
+		<h3>{{blob.name}} <em>({{blob.size|convert_bytes}})</em></h3>
+	</div>
+		{% if rst %}
+	<div class="block-content restructuredtext">
+		<div class="readme">
+		{{content|restructuredtext}}
+		</div>
+		{% endif %}
+		{% if md %}
+	<div class="block-content markdown">
+		<div class="readme">
+		{{content|markdown}}
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% endif %}

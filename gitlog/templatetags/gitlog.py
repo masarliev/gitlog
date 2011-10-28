@@ -14,6 +14,12 @@ from datetime import date, timedelta
 from django.template import defaultfilters
 register = template.Library()
 from django.conf import settings
+from pygments import highlight
+from pygments.lexers import guess_lexer_for_filename
+from pygments.lexers.text import DiffLexer
+from pygments.formatters import HtmlFormatter
+from pygments.util import ClassNotFound
+from pygments.lexers.special import TextLexer
 DATE_FORMAT = '%d %b %Y %H:%M:%S'
 @stringfilter
 def timetodate(value):
@@ -166,4 +172,43 @@ def breadcrumb(context):
             cdir += '/'+item
         breadcrumb.append({'path':cdir, 'name':item})
     return {'project':context['project'],'breadcrumb':breadcrumb, 'commit':commit}
+
+
+@register.filter
+def convert_bytes(bytes):
+   abbrevs = (
+        (1<<50L, 'PB'),
+        (1<<40L, 'TB'),
+        (1<<30L, 'GB'),
+        (1<<20L, 'MB'),
+        (1<<10L, 'kB'),
+        (1, 'bytes')
+   )
+   if bytes == 1:
+        return '1 byte'
+   for factor, suffix in abbrevs:
+        if bytes >= factor:
+            break
+   return '%.*f %s' % (1, bytes / factor, suffix)
+
     
+def highlight_blob(blob):
+    try:
+        lexer = guess_lexer_for_filename(blob.name, blob.data_stream.read())
+    except ClassNotFound:
+        lexer = TextLexer()
+    formater = HtmlFormatter(linenos='source', cssclass="source")
+    return "<style>%s</style>%s" % (formater.get_style_defs('.source'), highlight(blob.data_stream.read(), lexer, formater))
+register.filter('highlight', highlight_blob)
+
+@register.inclusion_tag('projects/readme.html', takes_context=True)
+def readme(context):
+    commit = context['commit']
+    if 'README.md' in commit.tree:
+        blob = commit.tree['README.md']
+        return {'blob':blob, 'content':blob.data_stream.read(), 'md':True}
+    if 'README.rst' in commit.tree:
+        blob = commit.tree['README.rst']
+        return {'blob':blob, 'content':blob.data_stream.read(), 'rst':True}
+    
+    return {'blob':False}
