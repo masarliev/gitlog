@@ -1,0 +1,49 @@
+{% extends 'projects/tree.html'%}
+{% block title %}{{project.name}}{% endblock %}
+{% load i18n gitlog gravatar %}
+{% block main %}
+<div class="block">
+			<div class="block-head">
+				<h3>
+					{% blocktrans count counter=commit.stats.total.files %}
+					Showing {{counter}} changed file
+					{% plural %}
+					Showing {{counter}} changed files
+					{% endblocktrans %}
+					{% blocktrans count counter=commit.stats.total.insertions %}
+					with {{counter}} addition
+					{% plural %}
+					with {{counter}} additions
+					{% endblocktrans %}
+					{% blocktrans count counter=commit.stats.total.deletions %}
+					and {{counter}} deletion.
+					{% plural %}
+					and {{counter}} deletions
+					{% endblocktrans %}
+				</h3>
+			</div>
+			<div class="block-content" style="padding: 0px 10px;">
+				asd
+			</div>
+		</div>
+<table id="toc">
+  <tbody>
+  	{% for file in diff %}
+  	<tr>
+  	<td class="status {% if file.deleted_file %}removed{%else%}{% if file.new_file %}added{%else%}{% if file.renamed %}renamed{%else%}modified{%endif%}{%endif%}{%endif%}"><span class="stat-icon"></span></td>
+    <td class="path"><a href="#diff-{{forloop.counter}}">
+    {% if file.deleted_file %}
+    	{{file.a_blob.path}}
+    {%else%}
+    	{% if file.renamed %}
+    	{{file.rename_to}}
+    	{% else %}
+    	{{file.b_blob.path}}
+    	{%endif %}
+    {%endif%}
+    </a></td>
+    
+  </tr>
+  	{% endfor %}
+</tbody></table>
+{% endblock %}

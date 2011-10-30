@@ -53,7 +53,7 @@
 					{% user_link commit.author%}
 				</span> 
 				{% trans 'authored on'%} {{commit.authored_date|timetodate}}
-				<div style="float:right; opacity: 0.5;">{% trans "Commit"%}: <a href="#">{{commit|substr:10}}</a></div>
+				<div style="float:right; opacity: 0.5;">{% trans "Commit"%}: <a href="{% url gitlog_project_commit project=project commit=commit_id%}">{{commit|substr:10}}</a></div>
 			</li>
 			<li class="commit-message">{{commit.message}}</li>
 		</ul>

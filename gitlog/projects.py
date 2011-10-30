@@ -56,3 +56,13 @@ def blob(request, project, commit=None, path=None):
         raise Http404
     blob = commit.tree[path]
     return 'projects/blob.html', {'project':project, 'repo':repo, 'commit':commit, 'blob':blob}
+
+@auto_render
+@login_required
+def commit(request, project, commit):
+    project = get_object_or_404(Project, name=project)
+    repo = git.Repo('%s%s.git' %(getattr(settings, 'REPOSITORY_DIR'), project.name), odbt=GitCmdObjectDB)
+    assert repo.bare == True
+    commit = repo.commit(commit)
+    diff = commit.diff('HEAD~1')
+    return 'projects/commit.html', {'project':project, 'repo':repo, 'commit':commit, 'diff':diff}

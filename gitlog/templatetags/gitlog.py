@@ -131,7 +131,7 @@ def commithead(context):
     if not commit:
         commit = commit_id
         reference = False
-    return {'reference':reference, 'name':commit, 'commit':commit_obj, 'project':context['project'], 'type':type}
+    return {'reference':reference, 'name':commit, 'commit':commit_obj, 'project':context['project'], 'type':type, 'commit_id':commit_id}
 @register.inclusion_tag('projects/commit_row.html',takes_context=True)
 def render_commit_row(context, commit, item, *args, **kwargs):
     static_url = getattr(settings, 'STATIC_URL')
