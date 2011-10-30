@@ -8,5 +8,5 @@
 	<td><a href="{% url gitlog_project_blob project=project commit=commit path=path%}">{{name}}</a></td>
 	{% endifequal %}
 	<td>{{age|naturaltime}}</td>
-	<td colspan="2">{{message}}[<a href="#">{{author}}]</a></td>
+	<td colspan="2">{{message}}[{%user_link author%}]</td>
 </tr>

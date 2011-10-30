@@ -20,6 +20,8 @@ from pygments.lexers.text import DiffLexer
 from pygments.formatters import HtmlFormatter
 from pygments.util import ClassNotFound
 from pygments.lexers.special import TextLexer
+from django.core.urlresolvers import reverse
+from git import Actor, TagReference
 DATE_FORMAT = '%d %b %Y %H:%M:%S'
 @stringfilter
 def timetodate(value):
@@ -31,14 +33,24 @@ def substr(value, arg):
     return value[:int(arg)]
 register.filter('substr', substr)
 
-
-def get_username_by_email(value, attr):
-    try:
-        user =  User.objects.get(email=value)
-        return getattr(user, attr)
-    except :
+@register.simple_tag(takes_context=True)
+def user_link(context, value):
+    user = None
+    if isinstance(value, User):
+        user = value
+    if not user and isinstance(value, Actor):
+        try:
+            user = User.objects.get(email=value.email)
+        except :
+            pass
+    if not user and isinstance(value, str):
+        try:
+            user = User.objects.get(email=value)
+        except :
+            pass
+    if not user:
         return value
-register.filter('user', get_username_by_email)
+    return '<a href="%s">%s</a>' % (reverse('gitlog_account_dashboard', args=[user.username]), user.username)
 
 @register.filter
 def naturaltime(value):
@@ -107,19 +119,19 @@ def naturaltime(value):
 def commithead(context):
     commit_obj = context['commit']
     commit_id, commit_ref = commit_obj.name_rev.split(' ')
-    current = True
-    if commit_obj.repo.commit(commit_obj.repo.active_branch.name).name_rev != commit_obj.name_rev:
-        for ref in commit_obj.repo.refs:
-            if ref.commit.name_rev == commit_obj.name_rev:
-                commit = ref.name
-                break
-        if not commit:
-            commit = commit_id
-        #return {'current':False, 'name':commit, 'commit':commit_obj, 'ref':commit_ref}
-        current = False
-    else:
-        commit = commit_ref
-    return {'current':current, 'name':commit, 'commit':commit_obj, 'ref':commit_ref}
+    reference = True
+    type = _('branch')
+    for ref in commit_obj.repo.refs:
+        if ref.commit.name_rev == commit_obj.name_rev:
+            commit = ref.name
+            if isinstance(ref, TagReference):
+                type = _('tag')
+            reference = True
+            break
+    if not commit:
+        commit = commit_id
+        reference = False
+    return {'reference':reference, 'name':commit, 'commit':commit_obj, 'project':context['project'], 'type':type}
 @register.inclusion_tag('projects/commit_row.html',takes_context=True)
 def render_commit_row(context, commit, item, *args, **kwargs):
     static_url = getattr(settings, 'STATIC_URL')

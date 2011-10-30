@@ -20,13 +20,12 @@
 				<div class="author">
 					{% gravatar project.owner 45 %}	
 					<ul style="min-height: 50px;">
+						{% if project.url %}
 						<li><a href="{{project.url}}" target="__blank">{{project.url}}</a></li>
-						<li><a href="#"><span class="strong">{{project.owner}}</span></a></li>
+						{% endif %}
+						<li><span class="strong">{% user_link project.owner %}</span></li>
 						<li>{{project.owner.email}}</li>
 					</ul>
-					{% if user = project.owner %}
-					<a href="#" class="grey" style="left: 255px;"><span>{% trans "Admin"%}</span></a>
-					{% endif%}
 				</div>
 			</div>
 		</div>
@@ -39,8 +38,8 @@
 	<table cellpadding="0" cellspacing="0" class="tree-browser">
 		<tr class="tree-browser-header">
 			<td width="20"></td>
-			<td>{% trans 'Name'%}</td>
-			<td>{% trans 'Age'%}</td>
+			<td >{% trans 'Name'%}</td>
+			<td width="150">{% trans 'Age'%}</td>
 			<td>{% trans 'Message'%}</td>
 			<td width="55"><a href="#" class="button" style="position: absolute; margin-top: -11px;">{% trans 'History'%}</a></td>
 		</tr>

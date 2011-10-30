@@ -304,7 +304,7 @@ div.block-head h3 em {
 	color: #99A4AA;	
 	font-style: normal;
 }
-div.block-head a{
+div.block-head a.button, div.block-head a.rss {
 	position: absolute;
 	top: 4px;
 	right: 5px;
@@ -416,4 +416,55 @@ div.source {
 	overflow-x: auto;
 	width: 939px;
 	overflow-y: hidden;
+}
+div.refs {
+	position:absolute;
+	width:640px;
+	z-index: 1000;
+}
+div.refs ul.reflist {
+	background-color: #F8F8F8;
+	float: right;
+	padding: 5px 15px;
+	padding-bottom: 0px;
+	border: solid 1px #DDD;
+	min-width: 250px;
+	
+}	
+div.refs ul.reflist li {
+	float: left;
+	display: block;
+	overflow: hidden;
+
+}
+div.refs ul.reflist li a {
+	display: block;
+	padding: 5px 10px;
+	color: #666;
+	font-weight: bold;
+}
+div.refs ul.reflist li a.selected {
+	border: solid 1px #DDD;
+	border-bottom: none;
+	background: #FFFFFF;
+}
+div.refs ul.reflist li ul {
+	background: white;
+	position: absolute;
+	top: 32px;
+	z-index: 4;
+	background: white;
+	right: 0px;
+	min-width: 280px;
+	border: solid 1px #DDD;
+	border-bottom:none;
+}
+div.refs ul.reflist li ul li {
+	float: none;
+	min-width: 250px;
+	padding-left: 15px;
+	border-bottom:  solid 1px #DDD;
+}
+div.refs ul.reflist li ul li a {
+	color: #069;
 }

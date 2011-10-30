@@ -1,21 +1,56 @@
 {% load i18n gitlog %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('a#switcher').click(function(){
+			$('ul.reflist').toggle()
+		})
+		$('a.refswitcher').each(function(){
+			$(this).click(function(){
+				$('ul.reflist a.selected').removeClass('selected').next().hide()
+				$(this).next().show();
+				$(this).addClass('selected');
+				
+			})
+		})
+	})
+</script>
 <div class="block">
 	<div class="block-head">
 		<h3>
-		{% if current %}
-		{% trans 'Latest commit to the'%} <span class="strong">{{name}}</span> {% trans 'branch'%}
+		{% if reference %}
+		{% trans 'Latest commit to the'%} <a href="{% url gitlog_project_tree project=project.name commit=name%}">{{name}}</a> {{type}}
 		{% endif %}
-		{% if not current %}
+		{% if not reference %}
 		{% trans 'Browsing ref'%} <span class="strong">{{name|substr:'10'}}</span>
 		{% endif %}
-		<a class="button switcher" href="#">Branch: {{ref}}</a>
+		<a class="button switcher" id="switcher" href="javascript: ;">{{type}}: {{name}}</a>
 		</h3>
 	</div>
+	<div class="refs" id="refs">
+			<ul class="reflist" style="display: none">
+				<li><a href="javascript:;" class="selected refswitcher">{% trans 'Branches'%}</a>
+					<ul>
+						{% for branch in commit.repo.branches %}
+						<li><a href="{% url gitlog_project_tree project=project commit=branch.name%}">{{ branch.name }}</a></li>
+						{% endfor %}
+					</ul>
+				</li>
+				<li><a href="javascript:;" class="refswitcher">{% trans 'Tags'%}</a>
+					{% if commit.repo.tags %}
+					<ul style="display: none;">
+						{% for tag in commit.repo.tags %}
+						<li><a href="{% url gitlog_project_tree project=project commit=tag.name%}">{{ tag.name }}</a></li>
+						{% endfor %}
+					</ul>
+					{% endif%}
+				</li>
+			</ul>
+		</div>
 	<div class="block-content">
 		<ul>
 			<li>
 				<span class="strong">
-					<a href ="{% url gitlog_account_dashboard user=commit.author.email|user:'username' %}">{{commit.author.email|user:'username'}}</a>
+					{% user_link commit.author%}
 				</span> 
 				{% trans 'authored on'%} {{commit.authored_date|timetodate}}
 				<div style="float:right; opacity: 0.5;">{% trans "Commit"%}: <a href="#">{{commit|substr:10}}</a></div>
