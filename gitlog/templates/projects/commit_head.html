@@ -51,8 +51,18 @@
 			<li>
 				<span class="strong">
 					{% user_link commit.author%}
+				</span>
+				 
+				{% trans 'authored on'%} {{commit.authored_date|timetodate}} 
+				{% if commit.author != commit.committer %}
+				<span style="font-size: 0.8em">
+				<br />
+				<span class="strong">
+					&nbsp;<img src="{{STATIC_URL}}img/committer.png" /> {% user_link commit.committer%}
 				</span> 
-				{% trans 'authored on'%} {{commit.authored_date|timetodate}}
+				{% trans 'committed on'%} {{commit.committed_date|timetodate}}
+				</span>
+				{% endif %}
 				<div style="float:right; opacity: 0.5;">{% trans "Commit"%}: <a href="{% url gitlog_project_commit project=project commit=commit_id%}">{{commit|substr:10}}</a></div>
 			</li>
 			<li class="commit-message">{{commit.message}}</li>
