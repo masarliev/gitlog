@@ -1,8 +1,20 @@
+{% load i18n %}
 <div class="repo-breadcrumb">
+	{% if history %}
+	{% trans 'History for '%}
+	{% endif %}
+	{% if history %}
+	<a href="{% url gitlog_project_history project=project.name commit=commit%}">{{ project }}</a> /
+	{% else %}
 	<a href="{% url gitlog_project_tree project=project.name commit=commit%}">{{ project }}</a> /
+	{% endif %}
 	{% for item in breadcrumb %}
 	{% if not forloop.last %}
+		{% if history %}
+		<a href="{% url gitlog_project_history project=project.name path=item.path commit=commit%}">{{ item.name }}</a> /
+		{% else %}
 		<a href="{% url gitlog_project_tree project=project.name path=item.path commit=commit%}">{{ item.name }}</a> /
+		{% endif %}
 	{% else %}
 	{{ item.name }}
 	{% endif %}

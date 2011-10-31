@@ -68,9 +68,6 @@
 	      {%endif%}
         </h3>
       </div>
-      
-        
-
         <div class="block-content">
         	{% if d.deleted_file %}
           		{{d.diff|highlight_diff:d.b_blob.name|safe}}

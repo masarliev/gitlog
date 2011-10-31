@@ -1,0 +1,73 @@
+{% extends 'projects/tree.html'%}
+{% block title %}{{project.name}}{% endblock %}
+{% load i18n gitlog gravatar %}
+{% block main %}
+{% breadcrumb %}
+{% for commit in history.object_list%}
+<div class="block">
+	<div class="block-head">
+		<h3>
+			<span class="strong">
+				{% user_link commit.author%}
+			</span>
+			 
+			{% trans 'authored on'%} {{commit.authored_date|timetodate}} 
+			{% if commit.author != commit.committer %}
+			<span style="font-size: 0.8em">
+			<br />
+			<span class="strong">
+				&nbsp;<img src="{{STATIC_URL}}img/committer.png" /> {% user_link commit.committer%}
+			</span> 
+			{% trans 'committed on'%} {{commit.committed_date|timetodate}}
+			</span>
+			{% endif %}
+		</h3>
+	</div>
+	<div class="block-content">
+		<div style="float:left;width: 800px;">
+		{{commit.message}}
+		</div>
+		<div style="float:right; opacity: 0.7;">
+			{% trans "Commit"%}: <a href="{% url gitlog_project_commit project=project commit=commit%}"><span class="strong">{{commit|substr:10}}</span></a> <br />
+			{% blocktrans count counter=commit.stats.total.files %}
+			{{counter}} changed file <br />
+			{% plural %}
+			{{counter}} changed files<br />
+			{% endblocktrans %}
+			{% blocktrans count counter=commit.stats.total.insertions %}
+			{{counter}} addition
+			{% plural %}
+			{{counter}} additions
+			{% endblocktrans %}
+			{% blocktrans count counter=commit.stats.total.deletions %}
+			and {{counter}} deletion
+			{% plural %}
+			and {{counter}} deletions
+			{% endblocktrans %}
+		</div>
+	</div>
+</div>
+{% endfor%}
+<ul class="pagination">
+    <span class="step-links">
+        {% if history.has_previous %}
+            <a href="?page={{ history.previous_page_number }}" class="button" style="padding: 4px 10px;">
+        {% else %}
+        	<a href="javascript: ;" class="grey" style="padding: 4px 10px; display: inline;">
+        {% endif %}
+			{% trans 'Previous'%}
+			</a>
+        <span class="current" style="margin: 0 10px">
+            Page {{ history.number }} of {{ history.paginator.num_pages }}.
+        </span>
+
+        {% if history.has_next %}
+            <a href="?page={{ history.next_page_number }}" class="button" style="padding: 4px 10px;">
+        {% else %}
+        	<a href="javascript: ;" class="grey" style="padding: 4px 10px; display: inline;">
+        {% endif %}
+       		{% trans 'Next'%}
+        	</a>
+    </span>
+</div>
+{% endblock %}

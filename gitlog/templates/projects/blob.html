@@ -2,15 +2,10 @@
 {% block title %}{{project.name}}{% endblock %}
 {% load i18n gitlog gravatar %}
 {% block main %}
-<style>
-	div.linenodiv pre {
-		margin-top: -2px!important;
-	}
-</style>
 {% breadcrumb %}
 <div class="block">
 			<div class="block-head">
-				<h3>{{blob.name}} <em>({{blob.size|convert_bytes}})</em><a href="#" class="button" >{% trans 'History'%}</a></h3>
+				<h3>{{blob.name}} <em>({{blob.size|convert_bytes}})</em><a href="{% url gitlog_project_history project=project commit=commit path=blob.path%}" class="button" >{% trans 'History'%}</a></h3>
 			</div>
 			<div class="block-content" style="padding: 0px 10px;">
 				{{blob|highlight|safe}}

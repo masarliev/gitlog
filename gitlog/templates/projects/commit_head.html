@@ -63,7 +63,16 @@
 				{% trans 'committed on'%} {{commit.committed_date|timetodate}}
 				</span>
 				{% endif %}
-				<div style="float:right; opacity: 0.5;">{% trans "Commit"%}: <a href="{% url gitlog_project_commit project=project commit=commit_id%}">{{commit|substr:10}}</a></div>
+				<div style="float:right; opacity: 0.7;">
+					{% trans "Commit"%}: <a href="{% url gitlog_project_commit project=project commit=commit_id%}">{{commit|substr:10}}</a> <br />
+					{% if commit.parents %}
+					<span class="strong">{% trans 'Parents'%}</span>
+					{% for item in commit.parents %} <br />
+					{% trans "Commit"%}: <a href="{% url gitlog_project_commit project=project commit=item%}">{{item|substr:10}}</a> <br />
+					{% trans "Tree"%}: <a href="{% url gitlog_project_tree project=project commit=item%}">{{item|substr:10}}</a> <br />
+					{% endfor %}
+					{% endif %}
+				</div>
 			</li>
 			<li class="commit-message">{{commit.message}}</li>
 		</ul>

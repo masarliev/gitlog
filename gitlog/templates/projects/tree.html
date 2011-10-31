@@ -41,7 +41,7 @@
 			<td >{% trans 'Name'%}</td>
 			<td width="150">{% trans 'Age'%}</td>
 			<td>{% trans 'Message'%}</td>
-			<td width="55"><a href="#" class="button" style="position: absolute; margin-top: -11px;">{% trans 'History'%}</a></td>
+			<td width="55"><a href="{% url gitlog_project_history project=project.name commit=commit path=tree.path%}" class="button" style="position: absolute; margin-top: -11px;">{% trans 'History'%}</a></td>
 		</tr>
 		{% for item in tree.trees %}
 		{% render_commit_row commit item %}

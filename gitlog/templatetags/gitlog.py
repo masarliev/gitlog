@@ -121,6 +121,7 @@ def commithead(context):
     commit_id, commit_ref = commit_obj.name_rev.split(' ')
     reference = True
     type = _('branch')
+    commit = None
     for ref in commit_obj.repo.refs:
         if ref.commit.name_rev == commit_obj.name_rev:
             commit = ref.name
@@ -130,6 +131,7 @@ def commithead(context):
             break
     if not commit:
         commit = commit_id
+        type = _('ref')
         reference = False
     return {'reference':reference, 'name':commit, 'commit':commit_obj, 'project':context['project'], 'type':type, 'commit_id':commit_id, 'STATIC_URL':context['STATIC_URL']}
 @register.inclusion_tag('projects/commit_row.html',takes_context=True)
@@ -183,7 +185,10 @@ def breadcrumb(context):
         else:
             cdir += '/'+item
         breadcrumb.append({'path':cdir, 'name':item})
-    return {'project':context['project'],'breadcrumb':breadcrumb, 'commit':commit}
+    history = False
+    if 'history' in context:
+        history = True
+    return {'project':context['project'],'breadcrumb':breadcrumb, 'commit':commit, 'history':history}
 
 
 @register.filter
@@ -249,10 +254,8 @@ def diffstat(filepath,statsfiles):
     output = ''
     for file, stats in statsfiles.items():
         if file == filepath:
-            output += '<a href="#diff-0" class="tooltipped leftwards" title="%s additions &amp; %s deletions">' % (stats['insertions'], stats['deletions'])
             output += '<span class="diffstat-summary">%s &nbsp; </span>' % stats['lines']
             output += '<span class="diffstat-bar">%s</span>' % diffstat_bar(stats)
-            output += '</a>'
             return output
     return output
     

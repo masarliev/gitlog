@@ -53,3 +53,29 @@ def commit(request, project, commit):
     else:
         diff = commit.diff(create_patch=True)
     return 'projects/commit.html', {'project':project, 'repo':repo, 'commit':commit, 'diff':diff}
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+@login_required
+@auto_render
+def history(request, project, commit, path=None, ):
+    project = get_object_or_404(Project, name=project)
+    repo = git.Repo('%s%s.git' %(getattr(settings, 'REPOSITORY_DIR'), project.name), odbt=GitCmdObjectDB)
+    assert repo.bare == True
+    commit = repo.commit(commit)
+    page = int(request.GET.get('page', 1))
+    skip = (page-1)*2
+    paginator = Paginator(list(repo.iter_commits(commit, paths=path)), 20)
+    try:
+        history = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        history = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        history = paginator.page(paginator.num_pages)
+    if path:
+        item = commit.tree[path]
+        if item.type == 'blob':
+            return 'projects/history.html', {'project':project, 'repo':repo, 'commit':commit, 'blob':item, 'history':history}
+    else:
+        item = commit.tree
+    return 'projects/history.html', {'project':project, 'repo':repo, 'commit':commit, 'tree':item, 'history':history}
