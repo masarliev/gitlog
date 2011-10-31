@@ -2,31 +2,25 @@
 {% block title %}{{project.name}}{% endblock %}
 {% load i18n gitlog gravatar %}
 {% block main %}
-<div class="block">
-			<div class="block-head">
-				<h3>
-					{% blocktrans count counter=commit.stats.total.files %}
-					Showing {{counter}} changed file
-					{% plural %}
-					Showing {{counter}} changed files
-					{% endblocktrans %}
-					{% blocktrans count counter=commit.stats.total.insertions %}
-					with {{counter}} addition
-					{% plural %}
-					with {{counter}} additions
-					{% endblocktrans %}
-					{% blocktrans count counter=commit.stats.total.deletions %}
-					and {{counter}} deletion.
-					{% plural %}
-					and {{counter}} deletions
-					{% endblocktrans %}
-				</h3>
-			</div>
-			<div class="block-content" style="padding: 0px 10px;">
-				asd
-			</div>
-		</div>
-<table id="toc">
+<h3>
+	{% blocktrans count counter=commit.stats.total.files %}
+	Showing {{counter}} changed file
+	{% plural %}
+	Showing {{counter}} changed files
+	{% endblocktrans %}
+	{% blocktrans count counter=commit.stats.total.insertions %}
+	with {{counter}} addition
+	{% plural %}
+	with {{counter}} additions
+	{% endblocktrans %}
+	{% blocktrans count counter=commit.stats.total.deletions %}
+	and {{counter}} deletion.
+	{% plural %}
+	and {{counter}} deletions
+	{% endblocktrans %}
+</h3>
+
+<table class="commit">
   <tbody>
   	{% for file in diff %}
   	<tr>
@@ -42,8 +36,55 @@
     	{%endif %}
     {%endif%}
     </a></td>
+    <td class="diffstat">
+    {% if file.deleted_file %}
+    {{file.a_blob.path|diffstat:commit.stats.files|safe}}
+    {% else %}
+    	{% if file.renamed %}
+    		{{file.rename_to|diffstat:commit.stats.files|safe}}
+    	{%else%}
+    		{{file.b_blob.path|diffstat:commit.stats.files|safe}}
+    	{%endif%}
+    {% endif %}
+    </td>
     
   </tr>
   	{% endfor %}
 </tbody></table>
+
+  {% for d in diff %}
+  {% if not d.renamed %}
+  <div class="block" id="diff-{{forloop.counter}}" >
+	<div class="block-head">
+ 		<h3>
+          {% if d.deleted_file %}
+		    {{d.a_blob.path}}
+		  {%else%}
+		  	{% if d.renamed %}
+		    	{{d.rename_to}}
+		    {%else%}
+		    	{{d.b_blob.path}}
+		    {%endif%}
+	      {%endif%}
+        </h3>
+      </div>
+      
+        
+
+        <div class="block-content">
+        	{% if d.deleted_file %}
+          		{{d.diff|highlight_diff:d.b_blob.name|safe}}
+          	{%else%}
+          		{% if d.renamed %}
+          		{{d.diff|highlight_diff:d.rename_to|safe}}
+          		{% else %}
+          		{{d.diff|highlight_diff:d.a_blob.name|safe}}
+          		{%endif%}
+          	{%endif%}
+        </div>
+      
+    </div>
+    {%endif%}
+  {% endfor %}
+
 {% endblock %}

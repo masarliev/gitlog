@@ -14,30 +14,16 @@
 		{% block header %}
 		<div class="header">
 			<div class="wrapper">
-				{%if public_access and user.is_anonymous%}
-				<ul class="account">
-					<li><a href="{% url gitlog_login%}"><span>Login</span></a></li>
-				</ul>
-				{%else%}
-					{%if user.is_authenticated%}
-					<ul class="account">
-						<li><a href="{% url gitlog_account_dashboard%}"><span style="color:#000;"><b>{{user}}</b></span></a></li>
-						<li><a href="{% url gitlog_home%}"><span>Dashboard</span></a></li>
-						<li><a href="{% url gitlog_account_settings%}"><span>Settings</span></a></li>
-						<li><a href="{% url gitlog_logout%}"><span>Logout</span></a></li>
-					</ul>
-					{% endif %}
-				{%endif%}
 				<h1 class="logo">
-					<a href="{% url gitlog_home%}">{% trans 'Dashboard'%}</a>
+					<a href="{% url gitlog_account_dashboard%}">{% trans 'Dashboard'%}</a>
 				</h1>
 			</div>
 			<div class="headnav">
 				<div class="wrapper">
 					<ul class="navi">
-						<li><a href="{% url gitlog_home%}"><span>{% trans 'News Feeds'%}</span></a></li>
-						<li><a href="#"><span>{% trans 'Projects'%}</span></a></li>
-						<li><a href="#"><span>{% trans 'Users'%}</span></a></li>
+						<li><a href="{% url gitlog_account_dashboard%}"><span>Dashboard</span></a></li>
+						<li><a href="{% url gitlog_account_settings%}"><span>Settings</span></a></li>
+						<li><a href="{% url gitlog_logout%}"><span>Logout</span></a></li>
 					</ul>
 				</div>
 			</div>

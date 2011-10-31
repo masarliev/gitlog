@@ -209,7 +209,7 @@ def highlight_blob(blob):
         lexer = guess_lexer_for_filename(blob.name, blob.data_stream.read())
     except ClassNotFound:
         lexer = TextLexer()
-    formater = HtmlFormatter(linenos='source', cssclass="source")
+    formater = HtmlFormatter(nobackground=True,linenos='table', cssclass="source")
     return "<style>%s</style>%s" % (formater.get_style_defs('.source'), highlight(blob.data_stream.read(), lexer, formater))
 register.filter('highlight', highlight_blob)
 
@@ -224,3 +224,39 @@ def readme(context):
         return {'blob':blob, 'content':blob.data_stream.read(), 'rst':True}
     
     return {'blob':False}
+
+@register.filter
+def diffstat_bar(stats):
+    output = ''
+    if int(stats['lines']) <= 5:
+        output += '<span class="plus">&bull;</span>' * int(stats['insertions'])
+        output += '<span class="minus">&bull;</span>' * int(stats['deletions'])
+    else:
+        stl = int(stats['lines']) / float(5) 
+        if int(stats['insertions']) != 0:
+            mp = int(int(stats['insertions'])/stl)
+            output += '<span class="plus">&bull;</span>' * mp
+        if int(stats['deletions']) != 0:
+            mp = int(int(stats['deletions'])/stl)
+            output += '<span class="minus">&bull;</span>' * mp
+        
+    return output  
+diffstat_bar.is_safe = True
+
+@register.filter
+@stringfilter
+def diffstat(filepath,statsfiles):
+    output = ''
+    for file, stats in statsfiles.items():
+        if file == filepath:
+            output += '<a href="#diff-0" class="tooltipped leftwards" title="%s additions &amp; %s deletions">' % (stats['insertions'], stats['deletions'])
+            output += '<span class="diffstat-summary">%s &nbsp; </span>' % stats['lines']
+            output += '<span class="diffstat-bar">%s</span>' % diffstat_bar(stats)
+            output += '</a>'
+            return output
+    return output
+    
+@register.filter
+def highlight_diff(content, filename):
+    formater = HtmlFormatter(nobackground=True, cssclass="source")
+    return "<style>%s</style>%s" % (formater.get_style_defs('.source'), highlight(content, DiffLexer(), formater))

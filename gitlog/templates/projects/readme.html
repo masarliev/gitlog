@@ -7,7 +7,7 @@
 		{% if rst %}
 	<div class="block-content restructuredtext">
 		<div class="readme">
-		{{content|restructuredtext}}
+		{{content|safe}}
 		</div>
 		{% endif %}
 		{% if md %}

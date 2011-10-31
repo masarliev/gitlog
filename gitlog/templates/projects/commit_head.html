@@ -36,13 +36,13 @@
 					</ul>
 				</li>
 				<li><a href="javascript:;" class="refswitcher">{% trans 'Tags'%}</a>
-					{% if commit.repo.tags %}
 					<ul style="display: none;">
 						{% for tag in commit.repo.tags %}
 						<li><a href="{% url gitlog_project_tree project=project commit=tag.name%}">{{ tag.name }}</a></li>
+						{% empty %}
+    					<li><a href="javascript:;" style="color: #666;">{% trans 'Sorry. No tags found.'%}</a></li>
 						{% endfor %}
 					</ul>
-					{% endif%}
 				</li>
 			</ul>
 		</div>

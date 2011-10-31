@@ -5,19 +5,18 @@ Created on Oct 25, 2011
 '''
 from django.conf.urls.defaults import url, patterns
 from django.views.generic.simple import redirect_to
+
 urlpatterns = patterns('',
-    url(r'^$', 'gitlog.views.home', name='gitlog_home'),
-    url(r'^$', 'gitlog.views.home', name='gitlog_home'),
-)
-urlpatterns += patterns('',
     url(r'^account/login/$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html'}, name="gitlog_login"),
     url(r'^account/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/account/login/'}, name="gitlog_logout"),
     url(r'^accounts/profile/$', redirect_to, {'url': '/account/'}),
 )
 urlpatterns += patterns('gitlog.account',
+    url(r'^$', 'dashboard', name='gitlog_account_dashboard'),
     url(r'^account/settings/$', 'settings', name="gitlog_account_settings"),
     url(r'^account/$', 'dashboard', name="gitlog_account_dashboard"),
     url(r'^account/(?P<user>[\w.@+-]+)/$', 'account', name="gitlog_account_dashboard"),
+    
 )
 
 urlpatterns += patterns('gitlog.projects',

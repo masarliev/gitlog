@@ -47,5 +47,9 @@ def commit(request, project, commit):
     repo = git.Repo('%s%s.git' %(getattr(settings, 'REPOSITORY_DIR'), project.name), odbt=GitCmdObjectDB)
     assert repo.bare == True
     commit = repo.commit(commit)
-    diff = commit.diff('HEAD~1')
+    if commit.parents:
+        parent = repo.commit(commit.parents[0])
+        diff = parent.diff(commit, create_patch=True, p=True)
+    else:
+        diff = commit.diff(create_patch=True)
     return 'projects/commit.html', {'project':project, 'repo':repo, 'commit':commit, 'diff':diff}

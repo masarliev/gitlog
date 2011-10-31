@@ -381,7 +381,7 @@ div.repo-breadcrumb{
 	font-size: 1.2em;
 	padding: 5px;
 }
-table.tree-browser {
+table.tree-browser{
 	width: 980px;
 	border-color: #DDDDDD;
     border-style: solid;
@@ -468,3 +468,20 @@ div.refs ul.reflist li ul li {
 div.refs ul.reflist li ul li a {
 	color: #069;
 }
+table.commit{font-family:Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;font-size:90%;}
+table.commit{border-top:1px solid #ddd;border-spacing:0;padding:0;margin:10px 0;width:100%;}
+table.commit td{padding:.4em 5px .4em 5px;border-bottom:1px solid #ddd;}
+table.commit td.status{width:20px;padding-left:0;}
+table.commit td.status .stat-icon{display:block;width:20px;height:19px;text-indent:-9999px;background:url('../img/file_modes.png') 0 0 no-repeat;}
+table.commit td.modified .stat-icon{background-position:0 -50px;}
+table.commit td.added .stat-icon{background-position:0 0;}
+table.commit td.removed .stat-icon{background-position:0 -100px;}
+table.commit td.renamed .stat-icon{background-position:0 -150px;}
+table.commit .diffstat{padding-right:0;width:1%;}
+table.commit .diffstat{white-space:nowrap;text-align:right;}
+table.commit .diffstat a{text-decoration:none;padding-right:15px;background:url(../img/jump.png) 100% 5px no-repeat;}
+table.commit .diffstat a:hover{background-position:100% -45px;}
+table.commit .diffstat-summary{font-family:helvetica,arial,freesans,clean,sans-serif;text-align:right;color:#666;font-weight:bold;font-size:11px;}
+table.commit .diffstat-bar{display:inline-block;width:50px;height:9px;text-decoration:none;text-align:left;background:url(../img/diffstat.png) 0 -100px repeat-x;}
+table.commit .diffstat .plus{float:left;display:block;width:10px;height:9px;text-indent:-9999px;background:url(../img/diffstat.png) 0 0 repeat-x;}
+table.commit .diffstat .minus{float:left;width:10px;height:9px;text-indent:-9999px;background:url(../img/diffstat.png) 0 -50px repeat-x;}
