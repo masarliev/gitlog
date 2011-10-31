@@ -4,7 +4,7 @@ Created on Oct 25, 2011
 @author: masarliev
 '''
 from django.core.management.base import BaseCommand, CommandError
-from gitlog.models import Project
+from gitlog.models import Project, Push
 from gitlog import settings
 from git import Repo
 from django.contrib.auth.models import User
@@ -57,6 +57,18 @@ class Command(BaseCommand):
                                                 if option == 'readonly':
                                                     project.readonly.add(user)
                                                 project.save()
+        else:
+            try:
+                project = Project.objects.get(name=repository)
+            except : 
+                self.stdout.write('Project not found: "%s"\n' % repository)
+                return 
+            push = Push()
+            push.project = project
+            push.oldrev = oldrev
+            push.newrev = newrev
+            push.reference = refname
+            push.save()
     def get_or_create_user(self, username):
         user, created = User.objects.get_or_create(username=username)
         if created:

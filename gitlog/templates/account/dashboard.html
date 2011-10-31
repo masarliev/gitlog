@@ -10,7 +10,11 @@
 				<h3>{% trans 'News Feeds'%}</h3>
 				<a href="#" title="RSS" class="rss"><img src="{{STATIC_URL}}img/rss.png" style="margin-top: 3px;"/></a>
 			</div>
-			<div class="block-content">&nbsp;</div>
+			<div class="block-content">
+				{% for item in feeds %}
+				{{item.reference}}
+				{% endfor %}
+			</div>
 		</div>
 		{% endblock %}
 	</div>

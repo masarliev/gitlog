@@ -7,6 +7,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from gitlog import settings
+import datetime
 class Project(models.Model):
     owner = models.ForeignKey(User, related_name='owner', blank=True, null=True)
     writable = models.ManyToManyField(User, related_name='writable')
@@ -25,3 +26,15 @@ class Project(models.Model):
     @property
     def sshurl(self):
         return '%s@%s:%s.git' % (getattr(settings, 'GITOSIS_USER'), getattr(settings, 'DOMAIN'), self.name)
+    
+    
+class Push(models.Model):
+    project = models.ForeignKey(Project)
+    oldrev = models.CharField(_('old revision'), max_length=40)
+    newrev = models.CharField(_('new revision'), max_length=40)
+    reference = models.CharField(_('reference'), max_length=150)
+    timestamp = models.DateTimeField()
+    
+    def save(self):
+        self.timestamp = datetime.datetime.today()
+        super(Push, self).save()
