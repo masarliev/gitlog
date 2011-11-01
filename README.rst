@@ -50,19 +50,33 @@ See *gitlog/settings.py* for available settings.
 Users and repositories are managed from post-receive hook. User is created only if it starts with '@'. Example
 
 [group username]
+
 members = user@home user@office
 
+
 [group repositories]
+
 members = @username
+
 writable = repo1
+
 readonly = repo2
 
+
 In this case after gitosis-admin push 1 user will be created with username "username" and 2 repositories (repo1, repo2)
+
 Additional and necessary settings
+
 [repo repo1]
+
 owner = username
+
 [repo repo2]
+
 owner = otheruser
+
 [user username]
+
 email = user@email
+
 password = secret
