@@ -2,6 +2,8 @@
 GitLog
 ######
 Gitoris repository browser build on django.
+`Demo <http://masarliev.net/>`_. 
+username: demo, password: demo
 
 ************
 Requirements
