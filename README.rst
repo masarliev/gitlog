@@ -46,6 +46,7 @@ Configuration
 *************
 
 See *gitlog/settings.py* for available settings.
+`example/gitosis.conf <https://raw.github.com/masarliev/gitlog/master/example/gitosis.conf/>`_. example gitosis configuration
 
 Users and repositories are managed from post-receive hook. User is created only if it starts with '@'. Example
 
