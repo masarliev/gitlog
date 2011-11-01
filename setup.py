@@ -15,9 +15,16 @@ setup(
     author='Mitko Masarliev',
     author_email='mitko@masarliev.net',
     url='http://dev.masarliev.net',
-    packages=['gitlog', 'gitlog.templatetags'],
-    package_data={ 'gitlog' : ['templates/gitlog/*.html', 'templates/gitlog/repositories/*.html', 'templates/gitlog/account/*.html']},
+    packages=['gitlog', 'gitlog.templatetags', 'gitlog.management'],
+    package_data={ 'gitlog' : ['templates/*.html', 'templates/projects/*.html', 'templates/account/*.html', 'static/css/*.css', 'static/img/*']},
     zip_safe=False,
-    install_requires=['GitPython >=0.3.2', 'Pygments >=1.4', 'Django >=1.3', 'Makrdown >=2.0.3', 'south>=0.7.2'],
+    install_requires=[
+        'gitpython', 
+        'pygments >=1.4', 
+        'Django>=1.3',
+        'Markdown>=2.0.3',
+        'south>=0.7.2', 
+        'docutils>=0.8.1'
+    ],
 )
 
