@@ -16,6 +16,8 @@ from git.db import GitCmdObjectDB
 @login_required
 def tree(request, project, commit=None, path=None):
     project = get_object_or_404(Project, name=project)
+    if not request.user in project.readonly.all() and not request.user in project.writable.all():
+        raise Http404
     repo = git.Repo('%s%s.git' %(getattr(settings, 'REPOSITORY_DIR'), project.name), odbt=GitCmdObjectDB)
     assert repo.bare == True
     if not commit:
@@ -32,6 +34,8 @@ def tree(request, project, commit=None, path=None):
 @login_required
 def blob(request, project, commit=None, path=None):
     project = get_object_or_404(Project, name=project)
+    if not request.user in project.readonly.all() and not request.user in project.writable.all():
+        raise Http404
     repo = git.Repo('%s%s.git' %(getattr(settings, 'REPOSITORY_DIR'), project.name), odbt=GitCmdObjectDB)
     assert repo.bare == True
     commit = repo.commit(commit)
@@ -44,6 +48,8 @@ def blob(request, project, commit=None, path=None):
 @login_required
 def commit(request, project, commit):
     project = get_object_or_404(Project, name=project)
+    if not request.user in project.readonly.all() and not request.user in project.writable.all():
+        raise Http404
     repo = git.Repo('%s%s.git' %(getattr(settings, 'REPOSITORY_DIR'), project.name), odbt=GitCmdObjectDB)
     assert repo.bare == True
     commit = repo.commit(commit)
@@ -58,6 +64,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 @auto_render
 def history(request, project, commit, path=None, ):
     project = get_object_or_404(Project, name=project)
+    if not request.user in project.readonly.all() and not request.user in project.writable.all():
+        raise Http404
     repo = git.Repo('%s%s.git' %(getattr(settings, 'REPOSITORY_DIR'), project.name), odbt=GitCmdObjectDB)
     assert repo.bare == True
     commit = repo.commit(commit)

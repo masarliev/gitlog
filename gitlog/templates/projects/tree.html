@@ -10,13 +10,19 @@
 		<div class="block">
 			<div class="block-head">
 				<h3>{{project.name}}
+					{% if user in project.writable.all %}
 					<a class="button active" id="a-git-ssh" href="javascript:;" onclick="$(this).toggleClass('active'); $('a#a-git-git').toggleClass('active'); $('input#git-ssh').toggle();$('input#git-git').toggle();">SSH</a>
+					{% endif %}
 					<a class="button" style="right: 53px;" id="a-git-git" href="javascript:;" onclick="$(this).toggleClass('active'); $('a#a-git-ssh').toggleClass('active'); $('input#git-ssh').toggle();$('input#git-git').toggle();">Git Read-Only</a>
 				</h3>
 			</div>
 			<div class="block-content">
+				{% if user in project.writable.all %}
 				<input type="text" class="repourl" id="git-ssh" value="{{project.sshurl}}"/>
 				<input type="text" class="repourl" id="git-git" value="{{project.giturl}}" style="display: none;"/>
+				{% else %}
+				<input type="text" class="repourl" id="git-git" value="{{project.giturl}}"/>
+				{% endif %}
 				<div class="author">
 					{% gravatar project.owner 45 %}	
 					<ul style="min-height: 50px;">
